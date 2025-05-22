@@ -1,10 +1,21 @@
 name: Process WooCommerce Webhook
-on: [push]
+on:
+  push:
+    branches: [main]
 jobs:
   process-webhook:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Log Webhook Data
-        run: echo "Received Webhook: $GITHUB_EVENT_PATH"
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install googleapis
+      - name: Process Webhook Data
+        env:
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+        run: node process-webhook.js
