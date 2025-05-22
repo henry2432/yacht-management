@@ -1,0 +1,10 @@
+name: Process WooCommerce Webhook
+on: [push]
+jobs:
+  process-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Log Webhook Data
+        run: echo "Received Webhook: $GITHUB_EVENT_PATH"
