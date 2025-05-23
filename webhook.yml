@@ -1,7 +1,7 @@
 name: Process WooCommerce Webhook
 on:
-  push:
-    branches: [main]
+  repository_dispatch:
+    types: [woocommerce_webhook]
 jobs:
   process-webhook:
     runs-on: ubuntu-latest
@@ -18,4 +18,5 @@ jobs:
         env:
           GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
         run: node process-webhook.js
